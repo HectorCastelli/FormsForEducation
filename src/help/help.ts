@@ -1,11 +1,11 @@
-function showStartupGuide() {
+function showStartupGuide(): void {
   //TODO: Implement
 }
 
-function userManual() {
+function userManual(): void {
   //TODO: Implement
 }
 
-function reportABug() {
+function reportABug(): void {
   //TODO: Implement
 }

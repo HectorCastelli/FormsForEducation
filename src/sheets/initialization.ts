@@ -1,4 +1,4 @@
-function initializeSheet() {
+function initializeSheet(): void {
   const activeSpreadsheet = SpreadsheetApp.getActive();
   if (
     activeSpreadsheet.getSheetByName(Constants.sheetNames.configurationSheet) ==

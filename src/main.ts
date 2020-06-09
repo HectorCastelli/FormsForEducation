@@ -1,8 +1,9 @@
-function onInstall(e) {
-  onOpen(e);
+function onInstall(): void {
+  onOpen();
   showStartupGuide();
 }
-function onOpen(e) {
+
+function onOpen(): void {
   const ui = SpreadsheetApp.getUi();
   //Add menus for Professor on spreadsheet
   ui.createAddonMenu()

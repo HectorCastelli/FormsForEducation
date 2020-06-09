@@ -1,4 +1,4 @@
-function validateForms() {
+function validateForms(): void {
   const questionFoldersUrls = SpreadsheetApp.getActive()
     .getSheetByName(Constants.sheetNames.configurationSheet)
     .getDataRange()
@@ -6,13 +6,7 @@ function validateForms() {
     .slice(1)
     .map((row) => row[1]);
   for (const folderUrl of questionFoldersUrls) {
-    const driveFolder = DriveApp.getFolderById(
-      folderUrl.toString().split("/").pop()
-    );
-
-    const files = driveFolder.getFilesByType(
-      GoogleAppsScript.Base.MimeType.GOOGLE_FORMS.toString()
-    );
+    const files = getFormsInFolder(folderUrl);
     while (files.hasNext()) {
       const file = files.next();
       const formFile = FormApp.openById(file.getId());
@@ -88,18 +82,15 @@ function validateForms() {
   }
 }
 
-function deactivateForms() {
+function deactivateForms(): void {
   const questionFoldersUrls = SpreadsheetApp.getActive()
     .getSheetByName(Constants.sheetNames.configurationSheet)
-    .getRange(2, 1, 3, 1)
-    .getValues();
+    .getDataRange()
+    .getValues()
+    .slice(1)
+    .map((row) => row[1]);
   for (const folderUrl of questionFoldersUrls) {
-    const driveFolder = DriveApp.getFolderById(
-      folderUrl.toString().split("/").pop()
-    );
-    const files = driveFolder.getFilesByType(
-      GoogleAppsScript.Base.MimeType.GOOGLE_FORMS.toString()
-    );
+    const files = getFormsInFolder(folderUrl);
     while (files.hasNext()) {
       const file = files.next();
       const formFile = FormApp.openById(file.getId());

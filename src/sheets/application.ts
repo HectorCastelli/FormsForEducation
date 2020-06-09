@@ -1,4 +1,4 @@
-function createNewApplication() {
+function createNewApplication(): void {
   //Give instructions for the professor on what he needs to do to get the application started.
   const applicationNameResponse = SpreadsheetApp.getUi().prompt(
     "Insert the name of the test",
@@ -12,7 +12,7 @@ function createNewApplication() {
   }
 }
 
-function initializeApplicationSheet(applicationName: string) {
+function initializeApplicationSheet(applicationName: string): void {
   const appSheet = SpreadsheetApp.getActive().insertSheet(
     Constants.sheetNames.applicationSheet + "-" + applicationName
   );
@@ -42,7 +42,7 @@ function initializeApplicationSheet(applicationName: string) {
   ]);
 }
 
-function appStartApplication() {
+function appStartApplication(): void {
   const appSheet = SpreadsheetApp.getActiveSheet();
   if (appSheet != null) {
     if (
@@ -127,7 +127,7 @@ function appStartApplication() {
   }
 }
 
-function createEmails(studentsTests) {
+function createEmails(studentsTests): StudentTests[] {
   return studentsTests.map((studentTest) => {
     const questionLinks = {
       mandatory: [],

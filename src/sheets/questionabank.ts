@@ -1,28 +1,20 @@
-function retrieveQuestionBank(applicationInput) {
-  const result = [];
+function retrieveQuestionBank(applicationInput): QuestionBank[] {
+  const result: QuestionBank[] = [];
   let addToResult = false;
   for (const row of applicationInput) {
     if (addToResult) {
       if (row[1] != null && row[1] != "") {
         const questions = [];
 
-        const folderId = row[1].toString().split("/").pop();
-        const driveFolder = DriveApp.getFolderById(folderId);
-        const files = driveFolder.getFilesByType(
-          GoogleAppsScript.Base.MimeType.GOOGLE_FORMS.toString()
-        );
+        const files = getFormsInFolder(row[1]);
         while (files.hasNext()) {
           const file = files.next();
           questions.push(file.getId());
         }
 
-        result.push({
-          name: row[0],
-          folderQuestions: questions,
-          weight: row[2],
-          mandatory: row[3],
-          optional: row[4],
-        });
+        result.push(
+          new QuestionBank(row[0], questions, row[2], row[3], row[4])
+        );
       }
     }
     if (row[0] === "Question Bank") {
@@ -35,8 +27,12 @@ function retrieveQuestionBank(applicationInput) {
   return result;
 }
 
-function generateTests(applicationName, students, questionBanks) {
-  const result = [];
+function generateTests(
+  applicationName,
+  students,
+  questionBanks
+): StudentTests[] {
+  const result: StudentTests[] = [];
   for (
     let applicationTestId = 0;
     applicationTestId < students.length;
@@ -64,8 +60,8 @@ function generateTests(applicationName, students, questionBanks) {
   return result;
 }
 
-function generateTest(testId, student, questionBanks) {
-  const result = {
+function generateTest(testId, student, questionBanks): StudentTests {
+  const result: StudentTests = {
     testId: testId,
     student: student,
     mandatory: [],

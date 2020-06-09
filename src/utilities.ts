@@ -1,4 +1,4 @@
-function getRandomFromArray(array: any[], numberOfElements: number) {
+function getRandomFromArray(array: any[], numberOfElements: number): any[] {
   let result = new Array(numberOfElements),
     length = array.length,
     taken = new Array(length);
@@ -18,7 +18,7 @@ function setSheetDimensions(
   sheet: GoogleAppsScript.Spreadsheet.Sheet,
   x: number,
   y: number
-) {
+): void {
   sheet.deleteColumns(x, sheet.getMaxColumns() - x);
   sheet.deleteRows(y, sheet.getMaxRows() - y);
 }

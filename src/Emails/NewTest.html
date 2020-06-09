@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top" />
+  </head>
+  <body>
+    <b
+      >Here is your test ID:
+      <?=testId?></b
+    >
+
+    <? if (questions.mandatory.length>0) { ?>
+    <h1>Mandatory Questions:</h1>
+    <ul>
+      <? for (var question of questions.mandatory) { ?>
+      <li>
+        <a href="<?=question.link?>"><?=question.title?></a>
+      </li>
+      <? } ?>
+    </ul>
+    <? } ?>
+    <? if (questions.optional.length>0) { ?>
+    <h1>Optional Questions (Extra points):</h1>
+    <ul>
+      <? for (var question of questions.optional) { ?>
+      <li>
+        <a href="<?=question.link?>"><?=question.title?></a>
+      </li>
+      <? } ?>
+    </ul>
+    <? } ?>
+  </body>
+</html>

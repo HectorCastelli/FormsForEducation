@@ -1,4 +1,4 @@
-function initializeApplication() {
+function createNewApplication() {
   //Give instructions for the professor on what he needs to do to get the application started.
   const applicationNameResponse = SpreadsheetApp.getUi().prompt(
     "Insert the name of the test",
@@ -12,12 +12,12 @@ function initializeApplication() {
   }
 }
 
-function initializeApplicationSheet(applicationName) {
+function initializeApplicationSheet(applicationName: string) {
   const appSheet = SpreadsheetApp.getActive().insertSheet(
-    applicationSheet + "-" + applicationName
+    Constants.sheetNames.applicationSheet + "-" + applicationName
   );
   const questionBank = SpreadsheetApp.getActive()
-    .getSheetByName(configurationSheet)
+    .getSheetByName(Constants.sheetNames.configurationSheet)
     .getDataRange()
     .getValues();
   appSheet.deleteColumns(5, appSheet.getMaxColumns() - 5);
@@ -27,7 +27,13 @@ function initializeApplicationSheet(applicationName) {
   );
   appSheet.getRange(1, 1, 2, 5).setValues([
     ["Test Name", "Applied On", "Start Time", "End Time", "Status"],
-    [applicationName, null, null, null, applicationStatus.PREPARATION],
+    [
+      applicationName,
+      null,
+      null,
+      null,
+      Constants.applicationStatus.PREPARATION,
+    ],
   ]);
   appSheet.getRange(4, 1, questionBank.length, 5).setValues(questionBank);
   appSheet.getRange(5 + questionBank.length, 1, 2, 4).setValues([
@@ -39,9 +45,12 @@ function initializeApplicationSheet(applicationName) {
 function appStartApplication() {
   const appSheet = SpreadsheetApp.getActiveSheet();
   if (appSheet != null) {
-    if (appSheet.getName().includes(applicationSheet + "-")) {
+    if (
+      appSheet.getName().includes(Constants.sheetNames.applicationSheet + "-")
+    ) {
       if (
-        appSheet.getRange(2, 5).getValue() === applicationStatus.PREPARATION
+        appSheet.getRange(2, 5).getValue() ===
+        Constants.applicationStatus.PREPARATION
       ) {
         const testName = appSheet.getRange(2, 1).getValue();
         //Gather questions
@@ -106,7 +115,7 @@ function appStartApplication() {
           }
         );
         //Update application status
-        appSheet.getRange(2, 5).setValue(applicationStatus.PROGRESS);
+        appSheet.getRange(2, 5).setValue(Constants.applicationStatus.PROGRESS);
       } else {
         SpreadsheetApp.getUi().alert("This application is not in PREPARATION");
       }
@@ -187,11 +196,16 @@ function createEmails(studentsTests) {
 function appEndApplication() {
   const appSheet = SpreadsheetApp.getActiveSheet();
   if (appSheet != null) {
-    if (appSheet.getName().includes(applicationSheet + "-")) {
-      if (appSheet.getRange(2, 5).getValue() === applicationStatus.PROGRESS) {
+    if (
+      appSheet.getName().includes(Constants.sheetNames.applicationSheet + "-")
+    ) {
+      if (
+        appSheet.getRange(2, 5).getValue() ===
+        Constants.applicationStatus.PROGRESS
+      ) {
         //Deactivate forms
         //Close applications
-        appSheet.getRange(2, 5).setValue(applicationStatus.CLOSED);
+        appSheet.getRange(2, 5).setValue(Constants.applicationStatus.CLOSED);
         //Compute results sheet with grades
       } else {
         SpreadsheetApp.getUi().alert("This application is not IN PROGRESS");

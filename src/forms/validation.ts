@@ -1,41 +1,6 @@
-function initializeSheet() {
-  if (SpreadsheetApp.getActive().getSheetByName(configurationSheet) == null) {
-    const configSheet = SpreadsheetApp.getActive().insertSheet(
-      configurationSheet
-    );
-
-    configSheet.deleteColumns(5, configSheet.getMaxColumns() - 5);
-    configSheet.deleteRows(4, configSheet.getMaxRows() - 4);
-    configSheet
-      .getRange(1, 1, 1, 5)
-      .setValues([
-        [
-          "Question Bank",
-          "Link to Folder",
-          "Weight",
-          "Mandatory Count",
-          "Optional Count",
-        ],
-      ]);
-    configSheet.getRange(2, 1, 3, 5).setValues([
-      ["Easy", null, 1, 1, 0],
-      ["Medium", null, 1, 1, 0],
-      ["Hard", null, 1, 1, 0],
-    ]);
-  }
-  if (SpreadsheetApp.getActive().getSheetByName(applicationIdsSheet) == null) {
-    const appIdSheets = SpreadsheetApp.getActive().insertSheet(
-      applicationIdsSheet
-    );
-    appIdSheets.deleteColumns(4, appIdSheets.getMaxColumns() - 4);
-    appIdSheets.deleteRows(1, appIdSheets.getMaxRows() - 1);
-    appIdSheets.hideSheet();
-  }
-}
-
 function validateForms() {
   const questionFoldersUrls = SpreadsheetApp.getActive()
-    .getSheetByName(configurationSheet)
+    .getSheetByName(Constants.sheetNames.configurationSheet)
     .getDataRange()
     .getValues()
     .slice(1)
@@ -44,7 +9,10 @@ function validateForms() {
     var driveFolder = DriveApp.getFolderById(
       folderUrl.toString().split("/").pop()
     );
-    var files = driveFolder.getFilesByType(MimeType.GOOGLE_FORMS);
+
+    var files = driveFolder.getFilesByType(
+      GoogleAppsScript.Base.MimeType.GOOGLE_FORMS.toString()
+    );
     while (files.hasNext()) {
       var file = files.next();
       var formFile = FormApp.openById(file.getId());
@@ -72,14 +40,16 @@ function validateForms() {
 
 function deactivateForms() {
   const questionFoldersUrls = SpreadsheetApp.getActive()
-    .getSheetByName(configurationSheet)
+    .getSheetByName(Constants.sheetNames.configurationSheet)
     .getRange(2, 1, 3, 1)
     .getValues();
   for (var folderUrl of questionFoldersUrls) {
     var driveFolder = DriveApp.getFolderById(
-      folderUrl.split("https://drive.google.com/drive/folders/")[1]
+      folderUrl.toString().split("/").pop()
     );
-    var files = driveFolder.getFilesByType(MimeType.GOOGLE_FORMS);
+    var files = driveFolder.getFilesByType(
+      GoogleAppsScript.Base.MimeType.GOOGLE_FORMS.toString()
+    );
     while (files.hasNext()) {
       var file = files.next();
       var formFile = FormApp.openById(file.getId());

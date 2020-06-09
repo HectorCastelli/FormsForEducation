@@ -1,0 +1,30 @@
+{
+  "name": "formsforeducation",
+  "version": "1.0.0",
+  "description": "A GSuite Add-on that leverages banks of Google Forms to create interesting and dynamic tests composed of multiple Forms.",
+  "main": "src/main.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HectorCastelli/FormsForEducation.git"
+  },
+  "keywords": [
+    "AppsScript",
+    "GSuite",
+    "Google",
+    "Forms",
+    "Google",
+    "Sheets"
+  ],
+  "author": "Hector Castelli Zacharias",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/HectorCastelli/FormsForEducation/issues"
+  },
+  "homepage": "https://github.com/HectorCastelli/FormsForEducation#readme",
+  "dependencies": {
+    "@types/google-apps-script": "^1.0.14"
+  }
+}

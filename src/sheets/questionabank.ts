@@ -8,7 +8,9 @@ function retrieveQuestionBank(applicationInput) {
 
         const folderId = row[1].toString().split("/").pop();
         var driveFolder = DriveApp.getFolderById(folderId);
-        var files = driveFolder.getFilesByType(MimeType.GOOGLE_FORMS);
+        var files = driveFolder.getFilesByType(
+          GoogleAppsScript.Base.MimeType.GOOGLE_FORMS.toString()
+        );
         while (files.hasNext()) {
           var file = files.next();
           questions.push(file.getId());
@@ -49,7 +51,7 @@ function generateTests(applicationName, students, questionBanks) {
     );
   }
   const appIdSheets = SpreadsheetApp.getActive().getSheetByName(
-    applicationIdsSheet
+    Constants.sheetNames.applicationIdsSheet
   );
   result
     .map((r) => [

@@ -1,4 +1,4 @@
-module Constants {
+namespace Constants {
   export enum sheetNames {
     configurationSheet = "Configuration",
     applicationSheet = "Application",

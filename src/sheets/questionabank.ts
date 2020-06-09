@@ -1,7 +1,7 @@
 function retrieveQuestionBank(applicationInput) {
   const result = [];
   let addToResult = false;
-  for (var row of applicationInput) {
+  for (const row of applicationInput) {
     if (addToResult) {
       if (row[1] != null && row[1] != "") {
         const questions = [];

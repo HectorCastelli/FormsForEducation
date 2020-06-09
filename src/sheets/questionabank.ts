@@ -7,12 +7,12 @@ function retrieveQuestionBank(applicationInput) {
         const questions = [];
 
         const folderId = row[1].toString().split("/").pop();
-        var driveFolder = DriveApp.getFolderById(folderId);
-        var files = driveFolder.getFilesByType(
+        const driveFolder = DriveApp.getFolderById(folderId);
+        const files = driveFolder.getFilesByType(
           GoogleAppsScript.Base.MimeType.GOOGLE_FORMS.toString()
         );
         while (files.hasNext()) {
-          var file = files.next();
+          const file = files.next();
           questions.push(file.getId());
         }
 
@@ -38,7 +38,7 @@ function retrieveQuestionBank(applicationInput) {
 function generateTests(applicationName, students, questionBanks) {
   const result = [];
   for (
-    var applicationTestId = 0;
+    let applicationTestId = 0;
     applicationTestId < students.length;
     applicationTestId++
   ) {

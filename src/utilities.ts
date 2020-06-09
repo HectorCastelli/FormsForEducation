@@ -1,5 +1,5 @@
 function getRandomFromArray(array: any[], numberOfElements: number) {
-  var result = new Array(numberOfElements),
+  let result = new Array(numberOfElements),
     length = array.length,
     taken = new Array(length);
   if (numberOfElements > length)
@@ -7,7 +7,7 @@ function getRandomFromArray(array: any[], numberOfElements: number) {
       "getRandomFromArray: <numberOfElements> is larger than length of <array>"
     );
   while (numberOfElements--) {
-    var x = Math.floor(Math.random() * length);
+    const x = Math.floor(Math.random() * length);
     result[numberOfElements] = array[x in taken ? taken[x] : x];
     taken[x] = --length in taken ? taken[length] : length;
   }

@@ -74,7 +74,7 @@ function appStartApplication() {
         );
         //Update rows with students to have their Ids
         studentsTests.forEach((studentTest) => {
-          var emailRange = appSheet
+          const emailRange = appSheet
             .createTextFinder(studentTest.student[1])
             .findNext();
           appSheet
@@ -84,9 +84,9 @@ function appStartApplication() {
         //Create email bodies
         const emails = createEmails(studentsTests);
         //Send Emails
-        var cc = SpreadsheetApp.getActive().getOwner().getEmail();
-        for (var email of emails) {
-          var emailRange = appSheet.createTextFinder(email[0]).findNext();
+        const cc = SpreadsheetApp.getActive().getOwner().getEmail();
+        for (const email of emails) {
+          const emailRange = appSheet.createTextFinder(email[0]).findNext();
           GmailApp.sendEmail(
             email[0], //TODO: change to student email
             "Here is your test: " + testName,

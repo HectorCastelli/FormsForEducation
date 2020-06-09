@@ -14,7 +14,7 @@ function createNewApplication(): void {
 
 function initializeApplicationSheet(applicationName: string): void {
   const appSheet = SpreadsheetApp.getActive().insertSheet(
-    Constants.sheetNames.applicationSheet + "-" + applicationName
+    `${Constants.sheetNames.applicationSheet}-${applicationName}`
   );
   const questionBank = SpreadsheetApp.getActive()
     .getSheetByName(Constants.sheetNames.configurationSheet)
@@ -175,27 +175,20 @@ function createEmails(studentsTests): StudentTests[] {
     emailTemplate.questions = questionLinks;
 
     const emailOutput = emailTemplate.evaluate().getContent();
-    const emailFallback =
-      "Here is your Test ID: " +
-      studentTest.testId +
-      "\n" +
-      "\n" +
-      "Mandatory Questions:" +
-      "\n" +
-      questionLinks.mandatory.map((q) => "-> " + q.link + "\n").toString() +
-      "\n" +
-      "\n" +
-      "Optional Questions:" +
-      "\n" +
-      questionLinks.optional.map((q) => "-> " + q.link + "\n").toString() +
-      "\n" +
-      "";
+    const emailFallback = `Here is your Test ID: ${studentTest.testId}
+
+      Mandatory Questions:
+      ${questionLinks.mandatory.map((q) => `-> ${q.link}\\n`).toString()}
+
+      Optional Questions:
+      ${questionLinks.optional.map((q) => `-> ${q.link}\\n`).toString()}
+      `;
 
     return [studentTest.student[1], emailOutput, emailFallback];
   });
 }
 
-function appEndApplication() {
+function appEndApplication(): void {
   const appSheet = SpreadsheetApp.getActiveSheet();
   if (appSheet != null) {
     if (
@@ -210,7 +203,9 @@ function appEndApplication() {
         appSheet.getRange(2, 5).setValue(Constants.applicationStatus.CLOSED);
         //Compute results sheet with grades
       } else {
-        SpreadsheetApp.getUi().alert("This application is not IN PROGRESS");
+        SpreadsheetApp.getUi().alert(
+          `This application is not in ${Constants.applicationStatus.PROGRESS}`
+        );
       }
     } else {
       SpreadsheetApp.getUi().alert(

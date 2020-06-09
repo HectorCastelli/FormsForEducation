@@ -40,7 +40,7 @@ function generateTests(
   ) {
     result.push(
       generateTest(
-        applicationName + "-" + applicationTestId,
+        `${applicationName}-${applicationTestId}`,
         students[applicationTestId],
         questionBanks
       )

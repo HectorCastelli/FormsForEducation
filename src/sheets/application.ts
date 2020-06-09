@@ -88,8 +88,8 @@ function appStartApplication(): void {
         for (const email of emails) {
           const emailRange = appSheet.createTextFinder(email[0]).findNext();
           GmailApp.sendEmail(
-            email[0], //TODO: change to student email
-            "Here is your test: " + testName,
+            email[0],
+            `Here is your test: ${testName}`,
             email[2],
             {
               htmlBody: email[1],
@@ -100,24 +100,26 @@ function appStartApplication(): void {
         //Send email to teacher
         GmailApp.sendEmail(
           cc,
-          "Professor copy: " + testName,
+          `Professor copy: ${testName}`,
           emails
-            .map((e) => "TO: " + e[0] + "\n" + e[2])
+            .map((e) => `TO: ${e[0]}\\n${e[2]}`)
             .reduce((total, e) => {
-              return "" + total + "\n=======\n" + e;
+              return `${total}\\n=======\\n${e}`;
             }),
           {
             htmlBody: emails
-              .map((e) => "<h1>TO: " + e[0] + "</h1><div>" + e[1] + "<div>")
+              .map((e) => `<h1>TO: ${e[0]}</h1><div>${e[1]}<div>`)
               .reduce((total, e) => {
-                return "" + total + "<hr>" + e;
+                return `${total}<hr>${e}`;
               }),
           }
         );
         //Update application status
         appSheet.getRange(2, 5).setValue(Constants.applicationStatus.PROGRESS);
       } else {
-        SpreadsheetApp.getUi().alert("This application is not in PREPARATION");
+        SpreadsheetApp.getUi().alert(
+          `This application is not in ${Constants.applicationStatus.PREPARATION}`
+        );
       }
     } else {
       SpreadsheetApp.getUi().alert(

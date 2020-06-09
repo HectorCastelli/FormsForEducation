@@ -9,7 +9,7 @@ function onOpen(): void {
   ui.createAddonMenu()
     .addItem("Initialize", "initializeSheet")
     .addItem("Check Questions", "validateForms")
-    .addItem("Create Application", "initializeApplication")
+    .addItem("Create Application", "createNewApplication")
     .addSubMenu(
       ui
         .createMenu("Applications")

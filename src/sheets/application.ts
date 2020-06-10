@@ -1,4 +1,4 @@
-function createNewApplication(): void {
+function createNewApplicationSheet(): void {
   //Give instructions for the professor on what he needs to do to get the application started.
   const applicationNameResponse = SpreadsheetApp.getUi().prompt(
     "Insert the name of the test",
@@ -42,7 +42,7 @@ function initializeApplicationSheet(applicationName: string): void {
   ]);
 }
 
-function appStartApplication(): void {
+function startApplication(): void {
   const appSheet = SpreadsheetApp.getActiveSheet();
   if (appSheet != null) {
     if (
@@ -57,6 +57,8 @@ function appStartApplication(): void {
         const questionBank = retrieveQuestionBank(
           appSheet.getDataRange().getValues()
         );
+        //Activate Forms
+        activateForms();
         //Gather students
         const students = appSheet
           .getRange(
@@ -82,7 +84,7 @@ function appStartApplication(): void {
             .setValue(studentTest.testId);
         });
         //Create email bodies
-        const emails = createEmails(studentsTests);
+        const emails = createApplicationEmails(studentsTests);
         //Send Emails
         const cc = SpreadsheetApp.getActive().getOwner().getEmail();
         for (const email of emails) {
@@ -129,7 +131,7 @@ function appStartApplication(): void {
   }
 }
 
-function createEmails(studentsTests): StudentTests[] {
+function createApplicationEmails(studentsTests): StudentTests[] {
   return studentsTests.map((studentTest) => {
     const questionLinks = {
       mandatory: [],
@@ -188,7 +190,7 @@ function createEmails(studentsTests): StudentTests[] {
   });
 }
 
-function appEndApplication(): void {
+function endApplication(): void {
   const appSheet = SpreadsheetApp.getActiveSheet();
   if (appSheet != null) {
     if (

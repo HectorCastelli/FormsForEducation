@@ -82,6 +82,23 @@ function validateForms(): void {
   }
 }
 
+function activateForms(): void {
+  const questionFoldersUrls = SpreadsheetApp.getActive()
+    .getSheetByName(Constants.sheetNames.configurationSheet)
+    .getDataRange()
+    .getValues()
+    .slice(1)
+    .map((row) => row[1]);
+  for (const folderUrl of questionFoldersUrls) {
+    const files = getFormsInFolder(folderUrl);
+    while (files.hasNext()) {
+      const file = files.next();
+      const formFile = FormApp.openById(file.getId());
+      formFile.setAcceptingResponses(true);
+    }
+  }
+}
+
 function deactivateForms(): void {
   const questionFoldersUrls = SpreadsheetApp.getActive()
     .getSheetByName(Constants.sheetNames.configurationSheet)

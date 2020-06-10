@@ -22,3 +22,7 @@ function setSheetDimensions(
   sheet.deleteColumns(x, sheet.getMaxColumns() - x);
   sheet.deleteRows(y, sheet.getMaxRows() - y);
 }
+
+function HtmlInclude(filename: string): string {
+  return HtmlService.createHtmlOutputFromFile(filename).getContent();
+}

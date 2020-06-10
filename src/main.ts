@@ -9,22 +9,21 @@ function onOpen(): void {
   ui.createAddonMenu()
     .addItem("Initialize", "initializeSheet")
     .addItem("Check Questions", "validateForms")
-    .addItem("Create Application", "createNewApplication")
+    .addItem("Create Application", "createNewApplicationSheet")
     .addSubMenu(
       ui
         .createMenu("Applications")
-        .addItem("Start Application", "appStartApplication")
+        .addItem("Start Application", "startApplication")
         .addItem("Create Calendar Event", "createCalendarEvent") //TODO: Add calendar event from test config
-        .addItem("End Application", "appEndApplication")
-        .addSeparator()
-        .addItem("Resend Test", "resendTest") //TODO: Add resend option
+        .addItem("End Application", "endApplication")
     )
     .addSubMenu(
       ui
-        .createMenu("Help") //TODO: Add help menus
+        .createMenu("Help")
         .addItem("Getting Started", "showStartupGuide")
-        .addItem("User Manual", "userManual")
-        .addItem("Report a Bug", "reportABug")
+        .addItem("User Manual", "userManual") //TODO: Add help content
+        .addItem("Report a Bug", "reportABug") //TODO: Add help content
+        .addItem("Request a Feature", "requestAFeature") //TODO: Add help content
     )
     .addToUi();
 }

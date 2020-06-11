@@ -22,8 +22,8 @@ function onOpen(): void {
         .createMenu("Help")
         .addItem("Getting Started", "showStartupGuide")
         .addItem("User Manual", "userManual") //TODO: Add help content
-        .addItem("Report a Bug", "reportABug") //TODO: Add help content
-        .addItem("Request a Feature", "requestAFeature") //TODO: Add help content
+        .addItem("Report a Bug", "reportABug")
+        .addItem("Request a Feature", "requestAFeature")
     )
     .addToUi();
 }

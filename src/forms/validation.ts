@@ -19,46 +19,46 @@ function validateForms(): void {
         .filter((item) => item.getTitle() === "Test ID")
         .forEach((item) => {
           switch (item.getType()) {
-            case GoogleAppsScript.Forms.ItemType.CHECKBOX:
+            case FormApp.ItemType.CHECKBOX:
               item.asCheckboxItem().setRequired(false);
               break;
-            case GoogleAppsScript.Forms.ItemType.CHECKBOX_GRID:
+            case FormApp.ItemType.CHECKBOX_GRID:
               item.asCheckboxGridItem().setRequired(false);
               break;
-            case GoogleAppsScript.Forms.ItemType.DATE:
+            case FormApp.ItemType.DATE:
               item.asDateItem().setRequired(false);
               break;
-            case GoogleAppsScript.Forms.ItemType.DATETIME:
+            case FormApp.ItemType.DATETIME:
               item.asDateItem().setRequired(false);
               break;
-            case GoogleAppsScript.Forms.ItemType.DURATION:
+            case FormApp.ItemType.DURATION:
               item.asDurationItem().setRequired(false);
               break;
-            case GoogleAppsScript.Forms.ItemType.GRID:
+            case FormApp.ItemType.GRID:
               item.asGridItem().setRequired(false);
               break;
-            case GoogleAppsScript.Forms.ItemType.LIST:
+            case FormApp.ItemType.LIST:
               item.asListItem().setRequired(false);
               break;
-            case GoogleAppsScript.Forms.ItemType.MULTIPLE_CHOICE:
+            case FormApp.ItemType.MULTIPLE_CHOICE:
               item.asMultipleChoiceItem().setRequired(false);
               break;
-            case GoogleAppsScript.Forms.ItemType.PARAGRAPH_TEXT:
+            case FormApp.ItemType.PARAGRAPH_TEXT:
               item.asParagraphTextItem().setRequired(false);
               break;
-            case GoogleAppsScript.Forms.ItemType.SCALE:
+            case FormApp.ItemType.SCALE:
               item.asScaleItem().setRequired(false);
               break;
-            case GoogleAppsScript.Forms.ItemType.TEXT:
+            case FormApp.ItemType.TEXT:
               item.asTextItem().setRequired(false);
               break;
-            case GoogleAppsScript.Forms.ItemType.TIME:
+            case FormApp.ItemType.TIME:
               item.asTimeItem().setRequired(false);
               break;
-            case GoogleAppsScript.Forms.ItemType.IMAGE:
-            case GoogleAppsScript.Forms.ItemType.PAGE_BREAK:
-            case GoogleAppsScript.Forms.ItemType.SECTION_HEADER:
-            case GoogleAppsScript.Forms.ItemType.VIDEO:
+            case FormApp.ItemType.IMAGE:
+            case FormApp.ItemType.PAGE_BREAK:
+            case FormApp.ItemType.SECTION_HEADER:
+            case FormApp.ItemType.VIDEO:
             default:
               //Do Nothing
               break;

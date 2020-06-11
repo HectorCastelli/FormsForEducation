@@ -80,6 +80,7 @@ function validateForms(): void {
       }
     }
   }
+  SpreadsheetApp.getActive().toast("Forms Validated!", "FormsForEducations", 2);
 }
 
 function activateForms(): void {

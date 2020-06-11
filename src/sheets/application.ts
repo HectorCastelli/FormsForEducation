@@ -10,6 +10,11 @@ function createNewApplicationSheet(): void {
   ) {
     initializeApplicationSheet(applicationNameResponse.getResponseText());
   }
+  SpreadsheetApp.getActive().toast(
+    "New Application created!",
+    "FormsForEducations",
+    2
+  );
 }
 
 function initializeApplicationSheet(applicationName: string): void {
@@ -118,6 +123,12 @@ function startApplication(): void {
         );
         //Update application status
         appSheet.getRange(2, 5).setValue(Constants.applicationStatus.PROGRESS);
+
+        SpreadsheetApp.getActive().toast(
+          "Application Started!",
+          "FormsForEducations",
+          2
+        );
       } else {
         SpreadsheetApp.getUi().alert(
           `This application is not in ${Constants.applicationStatus.PREPARATION}`
@@ -204,6 +215,12 @@ function endApplication(): void {
         //Close applications
         appSheet.getRange(2, 5).setValue(Constants.applicationStatus.CLOSED);
         //Compute results sheet with grades
+
+        SpreadsheetApp.getActive().toast(
+          "Application Finished!",
+          "FormsForEducations",
+          2
+        );
       } else {
         SpreadsheetApp.getUi().alert(
           `This application is not in ${Constants.applicationStatus.PROGRESS}`

@@ -38,4 +38,9 @@ function initializeSheet(): void {
     setSheetDimensions(newAppIdSheets, 4, 1);
     newAppIdSheets.hideSheet();
   }
+  SpreadsheetApp.getActive().toast(
+    "Sheet initialized successfully!",
+    "FormsForEducations",
+    2
+  );
 }

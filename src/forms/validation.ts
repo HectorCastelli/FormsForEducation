@@ -11,9 +11,10 @@ function validateForms(): void {
       const file = files.next();
       const formFile = FormApp.openById(file.getId());
       formFile.setCollectEmail(true);
+      formFile.setAllowResponseEdits(false);
       formFile.setAcceptingResponses(true);
       formFile.setLimitOneResponsePerUser(false);
-      formFile.setShuffleQuestions(true);
+      formFile.setShuffleQuestions(false);
       formFile
         .getItems()
         .filter((item) => item.getTitle() === "Test ID")

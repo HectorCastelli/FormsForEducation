@@ -30,7 +30,7 @@ function initializeApplicationSheet(applicationName: string): void {
     7 + questionBank.length,
     appSheet.getMaxRows() - (7 + questionBank.length)
   );
-  appSheet.getRange(1, 1, 2, 5).setValues([
+  appSheet.getRange(1, 1, 3, 5).setValues([
     ["Test Name", "Applied On", "Start Time", "End Time", "Status"],
     [
       applicationName,
@@ -39,6 +39,7 @@ function initializeApplicationSheet(applicationName: string): void {
       null,
       Constants.applicationStatus.PREPARATION,
     ],
+    [null, "Actual Times", null, null, null],
   ]);
   appSheet.getRange(4, 1, questionBank.length, 5).setValues(questionBank);
   appSheet.getRange(5 + questionBank.length, 1, 2, 4).setValues([
@@ -123,6 +124,7 @@ function startApplication(): void {
         );
         //Update application status
         appSheet.getRange(2, 5).setValue(Constants.applicationStatus.PROGRESS);
+        appSheet.getRange(3, 3).setValue(new Date());
 
         SpreadsheetApp.getActive().toast(
           "Application Started!",
@@ -214,6 +216,7 @@ function endApplication(): void {
         //Deactivate forms
         //Close applications
         appSheet.getRange(2, 5).setValue(Constants.applicationStatus.CLOSED);
+        appSheet.getRange(3, 4).setValue(new Date());
         //Compute results sheet with grades
 
         SpreadsheetApp.getActive().toast(

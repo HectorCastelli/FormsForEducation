@@ -16,13 +16,13 @@ function onOpen(): void {
         .addItem("Start Application", "startApplication")
         .addItem("Create Calendar Event", "createCalendarEvent") //TODO: Add calendar event from test config
         .addItem("End Application", "endApplication")
-        .addItem("Resend Application", "resendApplication") //TODO:Add option to resend application ID to a different email address (for recovery purposes)
+        .addItem("Resend Application", "resendApplication")
     )
     .addSubMenu(
       ui
         .createMenu("Help")
         .addItem("Getting Started", "showStartupGuide")
-        .addItem("User Manual", "userManual") //TODO: Add help content
+        .addItem("User Manual", "userManual")
         .addItem("Report a Bug", "reportABug")
         .addItem("Request a Feature", "requestAFeature")
     )

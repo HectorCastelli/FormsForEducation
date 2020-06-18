@@ -66,14 +66,15 @@ function startApplication(): void {
         //Activate Forms
         activateForms();
         //Gather students
-        const students = appSheet
+        const students: Student[] = appSheet
           .getRange(
             8 + questionBank.length,
             1,
             appSheet.getMaxRows() - (8 + questionBank.length) + 1,
             2
           )
-          .getValues();
+          .getValues()
+          .map((row) => new Student(row[0], row[1]));
         //Randomize students tests
         const studentsTests = generateTests(
           appSheet.getName(),
@@ -96,11 +97,11 @@ function startApplication(): void {
         for (const email of emails) {
           const emailRange = appSheet.createTextFinder(email[0]).findNext();
           GmailApp.sendEmail(
-            email[0],
+            email.student.email,
             `Here is your test: ${testName}`,
-            email[2],
+            email.emailFallback,
             {
-              htmlBody: email[1],
+              htmlBody: email.emailHtml,
             }
           );
           appSheet.getRange(emailRange.getRow(), 4).setValue(true);
@@ -110,13 +111,15 @@ function startApplication(): void {
           cc,
           `Professor copy: ${testName}`,
           emails
-            .map((e) => `TO: ${e[0]}\\n${e[2]}`)
+            .map((e) => `TO: ${e.student.email}\\n${e.emailFallback}`)
             .reduce((total, e) => {
               return `${total}\\n=======\\n${e}`;
             }),
           {
             htmlBody: emails
-              .map((e) => `<h1>TO: ${e[0]}</h1><div>${e[1]}<div>`)
+              .map(
+                (e) => `<h1>TO: ${e.student.email}</h1><div>${e.emailHtml}<div>`
+              )
               .reduce((total, e) => {
                 return `${total}<hr>${e}`;
               }),
@@ -144,63 +147,107 @@ function startApplication(): void {
   }
 }
 
-function createApplicationEmails(studentsTests): StudentTests[] {
-  return studentsTests.map((studentTest) => {
-    const questionLinks = {
-      mandatory: [],
-      optional: [],
-    };
-    studentTest.mandatory.forEach((mandatory) => {
-      const formFile = FormApp.openById(mandatory);
-      const questionItem = formFile
-        .getItems(FormApp.ItemType.TEXT)
-        .filter((item) => {
-          return item.asTextItem().getTitle() === "Test ID";
-        })
-        .pop()
-        .asTextItem();
-      questionLinks.mandatory.push({
-        title: formFile.getTitle(),
-        link: formFile
-          .createResponse()
-          .withItemResponse(questionItem.createResponse(studentTest.testId))
-          .toPrefilledUrl(),
-      });
+function resendApplication(): void {
+  const sheet = SpreadsheetApp.getActive().getSheetByName(
+    Constants.sheetNames.applicationIdsSheet
+  );
+  const applicationIdResponse = SpreadsheetApp.getUi().prompt(
+    "Insert the Application ID",
+    SpreadsheetApp.getUi().ButtonSet.OK_CANCEL
+  );
+  if (
+    applicationIdResponse.getSelectedButton() ===
+    SpreadsheetApp.getUi().Button.OK
+  ) {
+    var test = StudentTests.findByTestId(
+      applicationIdResponse.getResponseText()
+    );
+
+    const newEmailResponse = SpreadsheetApp.getUi().prompt(
+      "Insert the email to send to",
+      SpreadsheetApp.getUi().ButtonSet.OK_CANCEL
+    );
+    if (
+      newEmailResponse.getSelectedButton() === SpreadsheetApp.getUi().Button.OK
+    ) {
+      test.student.email = newEmailResponse.getResponseText();
+      const email = createApplicationEmail(test);
+      GmailApp.sendEmail(
+        email.student.email,
+        `Here is your test: ${test.testId}`,
+        email.emailFallback,
+        {
+          htmlBody: email.emailHtml,
+        }
+      );
+    }
+  }
+  SpreadsheetApp.getActive().toast("Email sent!", "FormsForEducations", 2);
+}
+
+function createApplicationEmail(studentTest: StudentTests): StudentTestEmail {
+  const questionLinks = {
+    mandatory: [],
+    optional: [],
+  };
+  studentTest.mandatory.forEach((mandatory) => {
+    const formFile = FormApp.openById(mandatory);
+    const questionItem = formFile
+      .getItems(FormApp.ItemType.TEXT)
+      .filter((item) => {
+        return item.asTextItem().getTitle() === "Test ID";
+      })
+      .pop()
+      .asTextItem();
+    questionLinks.mandatory.push({
+      title: formFile.getTitle(),
+      link: formFile
+        .createResponse()
+        .withItemResponse(questionItem.createResponse(studentTest.testId))
+        .toPrefilledUrl(),
     });
-    studentTest.optional.forEach((mandatory) => {
-      const formFile = FormApp.openById(mandatory);
-      const questionItem = formFile
-        .getItems(FormApp.ItemType.TEXT)
-        .filter((item) => {
-          return item.asTextItem().getTitle() === "Test ID";
-        })
-        .pop()
-        .asTextItem();
-      questionLinks.optional.push({
-        title: formFile.getTitle(),
-        link: formFile
-          .createResponse()
-          .withItemResponse(questionItem.createResponse(studentTest.testId))
-          .toPrefilledUrl(),
-      });
-    });
-
-    const emailTemplate = HtmlService.createTemplateFromFile("Emails/NewTest");
-    emailTemplate.testId = studentTest.testId;
-    emailTemplate.questions = questionLinks;
-
-    const emailOutput = emailTemplate.evaluate().getContent();
-    const emailFallback = `Here is your Test ID: ${studentTest.testId}
-
-      Mandatory Questions:
-      ${questionLinks.mandatory.map((q) => `-> ${q.link}\\n`).toString()}
-
-      Optional Questions:
-      ${questionLinks.optional.map((q) => `-> ${q.link}\\n`).toString()}
-      `;
-
-    return [studentTest.student[1], emailOutput, emailFallback];
   });
+  studentTest.optional.forEach((mandatory) => {
+    const formFile = FormApp.openById(mandatory);
+    const questionItem = formFile
+      .getItems(FormApp.ItemType.TEXT)
+      .filter((item) => {
+        return item.asTextItem().getTitle() === "Test ID";
+      })
+      .pop()
+      .asTextItem();
+    questionLinks.optional.push({
+      title: formFile.getTitle(),
+      link: formFile
+        .createResponse()
+        .withItemResponse(questionItem.createResponse(studentTest.testId))
+        .toPrefilledUrl(),
+    });
+  });
+
+  const emailTemplate = HtmlService.createTemplateFromFile("Emails/NewTest");
+  emailTemplate.testId = studentTest.testId;
+  emailTemplate.questions = questionLinks;
+
+  const emailOutput = emailTemplate.evaluate().getContent();
+  const emailFallback = `Here is your Test ID: ${studentTest.testId}
+
+    Mandatory Questions:
+    ${questionLinks.mandatory.map((q) => `-> ${q.link}\\n`).toString()}
+
+    Optional Questions:
+    ${questionLinks.optional.map((q) => `-> ${q.link}\\n`).toString()}
+    `;
+
+  return new StudentTestEmail(studentTest.student, emailOutput, emailFallback);
+}
+
+function createApplicationEmails(
+  studentsTests: StudentTests[]
+): StudentTestEmail[] {
+  return studentsTests.map((studentTest) =>
+    createApplicationEmail(studentTest)
+  );
 }
 
 function endApplication(): void {

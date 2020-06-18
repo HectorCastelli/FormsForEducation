@@ -16,6 +16,7 @@ function onOpen(): void {
         .addItem("Start Application", "startApplication")
         .addItem("Create Calendar Event", "createCalendarEvent") //TODO: Add calendar event from test config
         .addItem("End Application", "endApplication")
+        .addItem("Resend Application", "resendApplication") //TODO:Add option to resend application ID to a different email address (for recovery purposes)
     )
     .addSubMenu(
       ui

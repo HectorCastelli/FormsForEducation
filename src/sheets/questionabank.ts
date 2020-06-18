@@ -28,9 +28,9 @@ function retrieveQuestionBank(applicationInput): QuestionBank[] {
 }
 
 function generateTests(
-  applicationName,
-  students,
-  questionBanks
+  applicationName: string,
+  students: Student[],
+  questionBanks: QuestionBank[]
 ): StudentTests[] {
   const result: StudentTests[] = [];
   for (
@@ -52,7 +52,7 @@ function generateTests(
   result
     .map((r) => [
       r.testId,
-      r.student[1],
+      JSON.stringify(r.student),
       JSON.stringify(r.mandatory),
       JSON.stringify(r.optional),
     ])
@@ -60,7 +60,11 @@ function generateTests(
   return result;
 }
 
-function generateTest(testId, student, questionBanks): StudentTests {
+function generateTest(
+  testId: string,
+  student: Student,
+  questionBanks: QuestionBank[]
+): StudentTests {
   const result: StudentTests = {
     testId: testId,
     student: student,

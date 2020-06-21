@@ -1,30 +1,28 @@
-const ui = SpreadsheetApp.getUi();
+namespace Help {
+  const ui = SpreadsheetApp.getUi();
 
-function showStartupGuide(): void {
-  var html = HtmlService.createHtmlOutputFromFile("help/StartupGuide")
-    .setTitle("Startup Guide")
-    .setWidth(500);
-  ui.showSidebar(html);
-}
+  function createHtmlSidebar(title: string, filePath: string) {
+    const html = HtmlService.createHtmlOutputFromFile(filePath)
+      .setTitle(title)
+      .setWidth(500);
+    return html;
+  }
 
-function userManual(): void {
-  var html = HtmlService.createTemplateFromFile("help/UserManual")
-    .evaluate()
-    .setTitle("User Manual")
-    .setWidth(500);
-  ui.showSidebar(html);
-}
+  export function showStartupGuide(): void {
+    ui.showSidebar(createHtmlSidebar("Startup Guide", "help/StartupGuide"));
+  }
 
-function reportABug(): void {
-  var html = HtmlService.createHtmlOutputFromFile("help/ReportABug")
-    .setTitle("Report a Bug")
-    .setWidth(500);
-  ui.showSidebar(html);
-}
+  export function userManual(): void {
+    ui.showSidebar(createHtmlSidebar("User Manual", "help/UserManual"));
+  }
 
-function requestAFeature(): void {
-  var html = HtmlService.createHtmlOutputFromFile("help/RequestAFeature")
-    .setTitle("Request a Feature")
-    .setWidth(500);
-  ui.showSidebar(html);
+  export function reportABug(): void {
+    ui.showSidebar(createHtmlSidebar("Report a Bug", "help/ReportABug"));
+  }
+
+  export function requestAFeature(): void {
+    ui.showSidebar(
+      createHtmlSidebar("Request a Feature", "help/RequestAFeature")
+    );
+  }
 }

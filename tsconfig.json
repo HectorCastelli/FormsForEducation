@@ -1,6 +1,9 @@
 {
   "compilerOptions": {
+    "types": ["google-apps-script", "google-apps-script-oauth2"],
+    "strict": true,
     "lib": ["esnext"],
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "target": "ES2019"
   }
 }

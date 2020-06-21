@@ -1,5 +1,5 @@
 function initializeSheet(): void {
-  const activeSpreadsheet = SpreadsheetApp.getActive();
+  const activeSpreadsheet = SpreadsheetApp.getActive()!;
   if (
     activeSpreadsheet.getSheetByName(Constants.sheetNames.configurationSheet) ==
     null
@@ -32,13 +32,13 @@ function initializeSheet(): void {
       Constants.sheetNames.applicationIdsSheet
     ) == null
   ) {
-    const newAppIdSheets = SpreadsheetApp.getActive().insertSheet(
+    const newAppIdSheets = SpreadsheetApp.getActive()!.insertSheet(
       Constants.sheetNames.applicationIdsSheet
     );
     setSheetDimensions(newAppIdSheets, 4, 1);
     newAppIdSheets.hideSheet();
   }
-  SpreadsheetApp.getActive().toast(
+  SpreadsheetApp.getActive()!.toast(
     "Sheet initialized successfully!",
     "FormsForEducations",
     2

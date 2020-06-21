@@ -1,6 +1,6 @@
 function onInstall(): void {
   onOpen();
-  showStartupGuide();
+  Help.showStartupGuide();
 }
 
 function onOpen(): void {
@@ -8,7 +8,7 @@ function onOpen(): void {
   //Add menus for Professor on spreadsheet
   ui.createAddonMenu()
     .addItem("Initialize", "initializeSheet")
-    .addItem("Check Questions", "validateForms")
+    .addItem("Check Questions", "Forms.validateForms")
     .addItem("Create Application", "createNewApplicationSheet")
     .addSubMenu(
       ui

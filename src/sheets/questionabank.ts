@@ -1,4 +1,4 @@
-function retrieveQuestionBank(applicationInput): QuestionBank[] {
+function retrieveQuestionBank(applicationInput: any[][]): QuestionBank[] {
   const result: QuestionBank[] = [];
   let addToResult = false;
   for (const row of applicationInput) {
@@ -6,7 +6,7 @@ function retrieveQuestionBank(applicationInput): QuestionBank[] {
       if (row[1] != null && row[1] != "") {
         const questions = [];
 
-        const files = getFormsInFolder(row[1]);
+        const files = FolderOperator.getFormsInFolder(row[1]);
         while (files.hasNext()) {
           const file = files.next();
           questions.push(file.getId());
@@ -46,9 +46,9 @@ function generateTests(
       )
     );
   }
-  const appIdSheets = SpreadsheetApp.getActive().getSheetByName(
+  const appIdSheets = SpreadsheetApp.getActive()!.getSheetByName(
     Constants.sheetNames.applicationIdsSheet
-  );
+  )!;
   result
     .map((r) => [
       r.testId,

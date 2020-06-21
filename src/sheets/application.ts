@@ -154,9 +154,6 @@ namespace Application {
   }
 
   export function resendApplication(): void {
-    const sheet = SpreadsheetApp.getActive()!.getSheetByName(
-      Constants.sheetNames.applicationIdsSheet
-    );
     const applicationIdResponse = SpreadsheetApp.getUi().prompt(
       "Insert the Application ID",
       SpreadsheetApp.getUi().ButtonSet.OK_CANCEL

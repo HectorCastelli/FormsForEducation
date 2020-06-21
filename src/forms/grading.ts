@@ -9,3 +9,18 @@ function retrieveAnswers(testIds: string[]): TestAnswers[] {
 
   return results;
 }
+
+function retrieveTestAnswers(studentTest: StudentTests): TestAnswers {
+  //TODO: fetch data from StudentTest and the relevant answers
+}
+
+function getGradeMatrix(
+  startTime: Date,
+  endTime: Date,
+  testAnswers: TestAnswers[]
+) {
+  //TODO: Filter answers to be within time-frame
+  //NOTE: Use last-submitted answer as final answer for grading
+  //TODO: Compute grading matrix for all students
+  //TODO: Write to sheet
+}

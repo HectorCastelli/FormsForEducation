@@ -264,8 +264,9 @@ function endApplication(): void {
         //Close applications
         appSheet.getRange(2, 5).setValue(Constants.applicationStatus.CLOSED);
         appSheet.getRange(3, 4).setValue(new Date());
-        //Compute results sheet with grades
+        //TODO: Compute results sheet with grades (see grading.ts)
 
+        //TODO: Ask teacher if automated scores should be released (Send feedback for all forms).
         SpreadsheetApp.getActive().toast(
           "Application Finished!",
           "FormsForEducations",

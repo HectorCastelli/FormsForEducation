@@ -61,7 +61,7 @@ namespace Application {
         ) {
           const testName = appSheet.getRange(2, 1).getValue();
           //Gather questions
-          const questionBank = retrieveQuestionBank(
+          const questionBank = Questions.Questions.retrieveQuestionBank(
             appSheet.getDataRange().getValues()
           );
           //Activate Forms
@@ -77,7 +77,7 @@ namespace Application {
             .getValues()
             .map((row) => new Student(row[0], row[1]));
           //Randomize students tests
-          const studentsTests = generateTests(
+          const studentsTests = Questions.Questions.generateTests(
             appSheet.getName(),
             students,
             questionBank
@@ -272,12 +272,13 @@ namespace Application {
           Constants.applicationStatus.PROGRESS
         ) {
           //Deactivate forms
+          Forms.deactivateForms();
           //Close applications
           appSheet.getRange(2, 5).setValue(Constants.applicationStatus.CLOSED);
           appSheet.getRange(3, 4).setValue(new Date());
           //TODO: Compute results sheet with grades (see grading.ts)
 
-          //TODO: Ask teacher if automated scores should be released (Send feedback for all forms).
+          //TODO: Ask teacher if automated scores should be released (Release feedback from all forms).
           SpreadsheetApp.getActive()!.toast(
             "Application Finished!",
             "FormsForEducations",

@@ -61,7 +61,7 @@ namespace Application {
         ) {
           const testName = appSheet.getRange(2, 1).getValue();
           //Gather questions
-          const questionBank = Questions.Questions.retrieveQuestionBank(
+          const questionBank = Questions.retrieveQuestionBank(
             appSheet.getDataRange().getValues()
           );
           //Activate Forms
@@ -77,7 +77,7 @@ namespace Application {
             .getValues()
             .map((row) => new Student(row[0], row[1]));
           //Randomize students tests
-          const studentsTests = Questions.Questions.generateTests(
+          const studentsTests = Questions.generateTests(
             appSheet.getName(),
             students,
             questionBank
